@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ejava2016.pt08.ca1.business;
 
 import ejava2016.pt08.ca1.model.People;
+import java.util.List;
+import java.util.Optional;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -17,9 +19,22 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class PeopleBean {
-    @PersistenceContext private EntityManager em;
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    public Optional<People> find(final String pId) {
+        return (Optional.ofNullable(entityManager.find(People.class, pId)));
+    }
+
+    public List<People> findAll() {
+        TypedQuery<People> query = entityManager.createNamedQuery("People.findAll",
+                People.class);
+
+        return query.getResultList();
+    }
     
     public void register(People people) {
-        em.persist(people);
+        entityManager.persist(people);
     }
 }

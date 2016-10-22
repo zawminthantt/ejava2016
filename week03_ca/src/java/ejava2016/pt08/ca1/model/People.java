@@ -7,6 +7,8 @@ package ejava2016.pt08.ca1.model;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -110,6 +112,14 @@ public class People implements Serializable {
     @Override
     public String toString() {
         return "com.javaee.se24pt08.model.People[ pid=" + pid + " ]";
+    }
+    
+    public JsonObject toJSON() {
+        return (Json.createObjectBuilder()
+                .add("pid", pid)
+                .add("name", name)
+                .add("email", email)
+                .build());
     }
     
 }
