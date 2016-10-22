@@ -1,2 +1,9 @@
 /week03_ca/build/
 /week03_ca/dist/
+
+*/nbproject/private/
+*/build/
+*/nbbuild/
+*/dist/
+*/nbdist/
+*/.nb-gradle/
