@@ -24,7 +24,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Appointment.findAll", query = "SELECT a FROM Appointment a"),
     @NamedQuery(name = "Appointment.findByApptId", query = "SELECT a FROM Appointment a WHERE a.apptId = :apptId"),
-    @NamedQuery(name = "Appointment.findByApptDate", query = "SELECT a FROM Appointment a WHERE a.apptDate = :apptDate")})
+    @NamedQuery(name = "Appointment.findByApptDate", query = "SELECT a FROM Appointment a WHERE a.apptDate = :apptDate"),
+    @NamedQuery(name = "Appointment.findByPID", query = "SELECT a FROM Appointment a WHERE a.pid = :pid")})
 @XmlRootElement
 public class Appointment implements Serializable {
 
@@ -42,7 +43,7 @@ public class Appointment implements Serializable {
     
     @JoinColumn(name = "pid", referencedColumnName = "pid")
     @ManyToOne
-    private People pid;
+    private People people;
 
     public Appointment() {
     }
@@ -81,12 +82,12 @@ public class Appointment implements Serializable {
         this.apptDate = apptDate;
     }
 
-    public People getPid() {
-        return pid;
+    public People getPeople() {
+        return people;
     }
 
-    public void setPid(People pid) {
-        this.pid = pid;
+    public void setPeople(People people) {
+        this.people = people;
     }
 
     @Override

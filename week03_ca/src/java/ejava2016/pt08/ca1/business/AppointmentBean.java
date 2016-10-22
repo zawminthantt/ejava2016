@@ -6,10 +6,11 @@
 package ejava2016.pt08.ca1.business;
 
 import ejava2016.pt08.ca1.model.Appointment;
-import java.util.Optional;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -17,11 +18,15 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class AppointmentBean {
-    
-    @PersistenceContext private EntityManager entityManager;
-    
-    public Optional<Appointment> findAppointmentByPeopleID(final Integer pid) {
-        return (Optional.ofNullable(entityManager.find(Appointment.class, pid)));
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    public List<Appointment> findAppointmentByPeopleID(final String pid) {
+        TypedQuery<Appointment> query = entityManager.createNamedQuery("Appointment.findByPID", Appointment.class);
+        query.setParameter("pid", pid);
+        
+        return query.getResultList();
     }
-    
+
 }

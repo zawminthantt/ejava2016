@@ -26,6 +26,19 @@ public class PeopleBean {
     public Optional<People> find(final String pId) {
         return (Optional.ofNullable(entityManager.find(People.class, pId)));
     }
+    
+    public Optional<People> findByEmail(final String email) {
+        TypedQuery<People> query = entityManager.createNamedQuery("People.findByEmail", People.class);
+        query.setParameter("email", email);
+        
+        List <People> result = query.getResultList();
+        
+        if (result.size() > 0) {
+            return Optional.of(result.get(0));
+        }
+        
+        return Optional.empty();
+    }
 
     public List<People> findAll() {
         TypedQuery<People> query = entityManager.createNamedQuery("People.findAll",

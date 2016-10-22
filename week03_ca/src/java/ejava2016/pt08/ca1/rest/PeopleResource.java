@@ -5,8 +5,11 @@
  */
 package ejava2016.pt08.ca1.rest;
 
+import ejava2016.pt08.ca1.business.AppointmentBean;
 import ejava2016.pt08.ca1.business.PeopleBean;
+import ejava2016.pt08.ca1.model.Appointment;
 import ejava2016.pt08.ca1.model.People;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import javax.ejb.EJB;
@@ -19,6 +22,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
@@ -31,21 +35,44 @@ import javax.ws.rs.core.Response;
 @Path("/people")
 public class PeopleResource {
     @EJB private PeopleBean peopleBean;
+    @EJB private AppointmentBean appointmentBean;
     
     @GET
     @Path("{pid}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findPeopleByID(@PathParam("pid") String pID) {
         Optional<People> optPeople = peopleBean.find(pID);
-        System.out.println(">>> findPeopleByID");
+        
         if (optPeople.isPresent()) {
             return (Response.ok(optPeople.get().toJSON())
             .build());
         }
         
         return (Response.status(Response.Status.NOT_FOUND)
-				.entity("Customer id not found:" + pID)
+				.entity("No people with such ID: " + pID)
 				.build());
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findPeopleByEmail(@QueryParam("email") String email) {
+        Optional<People> optPeople = peopleBean.findByEmail(email);
+        
+//        if (optPeople.isPresent()) {
+//            List<Appointment> a = appointmentBean.findAppointmentByPeopleID(optPeople.get().getPid());
+//            System.out.println("Appointments: " + a);
+//        }
+//        
+        System.out.println(">>> find by email" + email);
+        System.out.println(">>> optPeople " + optPeople.get().toJSON());
+        if (optPeople.isPresent()) {
+            return (Response.ok(optPeople.get().toJSON())
+                    .build());
+        }
+        
+        return (Response.status(Response.Status.NOT_FOUND)
+                .entity("No people with such email address: " + email)
+                .build());
     }
     
     @POST
