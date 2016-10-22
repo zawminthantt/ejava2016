@@ -28,7 +28,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "People.findByPid", query = "SELECT p FROM People p WHERE p.pid = :pid"),
     @NamedQuery(name = "People.findByName", query = "SELECT p FROM People p WHERE p.name = :name"),
     @NamedQuery(name = "People.findByEmail", query = "SELECT p FROM People p WHERE p.email = :email")})
-@XmlRootElement
 public class People implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,7 +39,7 @@ public class People implements Serializable {
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     private String email;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pid")
+    @OneToMany(mappedBy = "people")
     private List<Appointment> appointmentCollection;
 
     public People() {

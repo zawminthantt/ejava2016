@@ -6,11 +6,14 @@
 package ejava2016.pt08.ca1.business;
 
 import ejava2016.pt08.ca1.model.Appointment;
+import ejava2016.pt08.ca1.model.People;
 import java.util.List;
+import java.util.Optional;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import jdk.nashorn.internal.ir.Assignment;
 
 /**
  *
@@ -22,11 +25,18 @@ public class AppointmentBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public List<Appointment> findAppointmentByPeopleID(final String pid) {
-        TypedQuery<Appointment> query = entityManager.createNamedQuery("Appointment.findByPID", Appointment.class);
-        query.setParameter("pid", pid);
+    public List<Appointment> findAppointmentByEmail(final String email) {
+        TypedQuery<Appointment> query = entityManager.createNamedQuery("Appointment.findByEmail", Appointment.class);
+        query.setParameter("email", email);
         
         return query.getResultList();
     }
+    
+    public Optional<Appointment> find(final Integer apptId) {
+        return (Optional.ofNullable(entityManager.find(Appointment.class, apptId)));
+    }
 
+    public void addAppointment(Appointment appointment) {
+        entityManager.persist(appointment);
+    }
 }

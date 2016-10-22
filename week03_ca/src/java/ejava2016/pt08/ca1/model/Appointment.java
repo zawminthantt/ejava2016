@@ -7,6 +7,8 @@ package ejava2016.pt08.ca1.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,7 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -24,9 +25,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Appointment.findAll", query = "SELECT a FROM Appointment a"),
     @NamedQuery(name = "Appointment.findByApptId", query = "SELECT a FROM Appointment a WHERE a.apptId = :apptId"),
-    @NamedQuery(name = "Appointment.findByApptDate", query = "SELECT a FROM Appointment a WHERE a.apptDate = :apptDate"),
-    @NamedQuery(name = "Appointment.findByPID", query = "SELECT a FROM Appointment a WHERE a.pid = :pid")})
-@XmlRootElement
+    @NamedQuery(name = "Appointment.findByApptDate", query = "SELECT a FROM Appointment a WHERE a.apptDate = :apptDate"), 
+    @NamedQuery(name = "Appointment.findByEmail", query = 
+            "SELECT a FROM People p join p.appointmentCollection a where p.email = :email")
+})
 public class Appointment implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -115,4 +117,11 @@ public class Appointment implements Serializable {
         return "com.javaee.se24pt08.model.Appointment[ apptId=" + apptId + " ]";
     }
     
+    public JsonObject toJSON() {
+        return (Json.createObjectBuilder()
+                .add("apptId", apptId)
+                .add("description", description)
+                .add("dateTime", apptDate.toString())
+                .build());
+    }
 }
