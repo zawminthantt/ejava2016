@@ -45,7 +45,7 @@ public class Appointment implements Serializable {
     
     @JoinColumn(name = "pid", referencedColumnName = "pid")
     @ManyToOne
-    private People pid;
+    private People people;
 
     public Appointment() {
     }
@@ -85,11 +85,11 @@ public class Appointment implements Serializable {
     }
 
     public People getPeople() {
-        return pid;
+        return people;
     }
 
-    public void setPeople(People pid) {
-        this.pid = pid;
+    public void setPeople(People people) {
+        this.people = people;
     }
 
     @Override
