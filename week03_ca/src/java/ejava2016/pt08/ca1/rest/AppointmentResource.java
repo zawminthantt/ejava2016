@@ -43,11 +43,44 @@ public class AppointmentResource {
     @EJB
     private PeopleBean peopleBean;
 
+    private final ExecutorService executorService = java.util.concurrent.Executors.newCachedThreadPool();
+
+    /**
+     * Get all appointments of the person.
+     *
+     * @param asyncResponse
+     * @param email
+     */
+    @GET
+    @Path(value = "{email}")
+    @Produces(value = MediaType.APPLICATION_JSON)
+    public void getAllAppointmentByEmail(@Suspended final AsyncResponse asyncResponse, @PathParam(value = "email") final String email) {
+        executorService.submit(() -> {
+            asyncResponse.resume(doGetAllAppointmentByEmail(email));
+        });
+    }
+
+    private Response doGetAllAppointmentByEmail(@PathParam("email") String email) {
+        List<Appointment> appointments = appointmentBean.findAppointmentByEmail(email);
+        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+        if (appointments != null) {
+            appointments.forEach((a) -> {
+                jsonArrayBuilder.add(a.toJSON());
+            });
+        }
+        return (Response.ok(jsonArrayBuilder.build()).build());
+    }
+
     @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response createAppointment(MultivaluedMap<String, String> formData) {
-        //http://localhost:8080/week03ca/api/appointment
+    @Consumes(value = MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(value = MediaType.APPLICATION_JSON)
+    public void createAppointment(@Suspended final AsyncResponse asyncResponse, final MultivaluedMap<String, String> formData) {
+        executorService.submit(() -> {
+            asyncResponse.resume(doCreateAppointment(formData));
+        });
+    }
+
+    private Response doCreateAppointment(MultivaluedMap<String, String> formData) {
         String email = formData.getFirst("email");
         String timestamp = formData.getFirst("date");
         String description = formData.getFirst("description");
@@ -76,26 +109,5 @@ public class AppointmentResource {
         }
         return (Response.status(Response.Status.NOT_FOUND)
                 .build());
-    }
-    private final ExecutorService executorService = java.util.concurrent.Executors.newCachedThreadPool();
-
-    @GET
-    @Path(value = "{email}")
-    @Produces(value = MediaType.APPLICATION_JSON)
-    public void getAllAppointmentByEmail(@Suspended final AsyncResponse asyncResponse, @PathParam(value = "email") final String email) {
-        executorService.submit(() -> {
-            asyncResponse.resume(doGetAllAppointmentByEmail(email));
-        });
-    }
-
-    private Response doGetAllAppointmentByEmail(@PathParam("email") String email) {
-        List<Appointment> appointments = appointmentBean.findAppointmentByEmail(email);
-        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
-        if (appointments != null) {
-            appointments.forEach((a) -> {
-                jsonArrayBuilder.add(a.toJSON());
-            });
-        }
-        return (Response.ok(jsonArrayBuilder.build()).build());
     }
 }
