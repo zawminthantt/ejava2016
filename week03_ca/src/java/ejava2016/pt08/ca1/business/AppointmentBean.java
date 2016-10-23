@@ -6,18 +6,16 @@
 package ejava2016.pt08.ca1.business;
 
 import ejava2016.pt08.ca1.model.Appointment;
-import ejava2016.pt08.ca1.model.People;
 import java.util.List;
 import java.util.Optional;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import jdk.nashorn.internal.ir.Assignment;
 
 /**
  *
- * @author kyawminthu
+ * @author kyawminthu, zawminthant
  */
 @Stateless
 public class AppointmentBean {

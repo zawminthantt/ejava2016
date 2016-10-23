@@ -106,10 +106,8 @@ public class Appointment implements Serializable {
             return false;
         }
         Appointment other = (Appointment) object;
-        if ((this.apptId == null && other.apptId != null) || (this.apptId != null && !this.apptId.equals(other.apptId))) {
-            return false;
-        }
-        return true;
+
+        return !((this.apptId == null && other.apptId != null) || (this.apptId != null && !this.apptId.equals(other.apptId)));
     }
 
     @Override

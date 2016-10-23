@@ -9,13 +9,11 @@ import java.io.Serializable;
 import java.util.List;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -24,21 +22,24 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "People.findAll", query = "SELECT p FROM People p"),
-    @NamedQuery(name = "People.findByPid", query = "SELECT p FROM People p WHERE p.pid = :pid"),
-    @NamedQuery(name = "People.findByName", query = "SELECT p FROM People p WHERE p.name = :name"),
+    @NamedQuery(name = "People.findAll", query = "SELECT p FROM People p")
+    ,
+    @NamedQuery(name = "People.findByPid", query = "SELECT p FROM People p WHERE p.pid = :pid")
+    ,
+    @NamedQuery(name = "People.findByName", query = "SELECT p FROM People p WHERE p.name = :name")
+    ,
     @NamedQuery(name = "People.findByEmail", query = "SELECT p FROM People p WHERE p.email = :email")})
 public class People implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     private String pid;
-    
+
     private String name;
-    
+
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     private String email;
-    
+
     @OneToMany(mappedBy = "people")
     private List<Appointment> appointmentCollection;
 
@@ -102,17 +103,15 @@ public class People implements Serializable {
             return false;
         }
         People other = (People) object;
-        if ((this.pid == null && other.pid != null) || (this.pid != null && !this.pid.equals(other.pid))) {
-            return false;
-        }
-        return true;
+
+        return !((this.pid == null && other.pid != null) || (this.pid != null && !this.pid.equals(other.pid)));
     }
 
     @Override
     public String toString() {
         return "com.javaee.se24pt08.model.People[ pid=" + pid + " ]";
     }
-    
+
     public JsonObject toJSON() {
         return (Json.createObjectBuilder()
                 .add("pid", pid)
@@ -120,5 +119,5 @@ public class People implements Serializable {
                 .add("email", email)
                 .build());
     }
-    
+
 }
