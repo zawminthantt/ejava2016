@@ -71,6 +71,7 @@ public class PeopleResource {
     }
 
     private Response doFindPeopleByEmail(@QueryParam("email") String email) {
+        if (email != null) email = email.toLowerCase();
         Optional<People> optPeople = peopleBean.findByEmail(email);
 
         if (!optPeople.isPresent()) {
@@ -108,7 +109,17 @@ public class PeopleResource {
     private Response doRegisterPeople(MultivaluedMap<String, String> formData) {
         String name = formData.getFirst("name");
         String email = formData.getFirst("email");
+        email = email.toLowerCase();
 
+        Optional<People> optPeople = peopleBean.findByEmail(email);
+
+        if (optPeople.isPresent()) {
+            JsonObject errorJson = Json.createObjectBuilder().add("message", "Email already in used.").build();
+            return (Response.status(Response.Status.PRECONDITION_FAILED)
+                    .entity(errorJson.toString())
+                    .build());
+        }
+        
         People p = new People();
         p.setName(name);
         p.setEmail(email);
