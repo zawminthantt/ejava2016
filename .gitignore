@@ -1,6 +1,10 @@
 /week03_ca/build/
 /week03_ca/dist/
 
-/CA2/build/
-/CA2/dist/
+/ca2/build/
+/ca2/dist/
 /ca2/nbproject/private/
+
+/ca2/*.iml
+/ca2/.idea
+/ca2/out
