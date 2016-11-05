@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Registration</title>
+    </h:head>
+    <h:body>
+        <h1>Registration</h1>
+        <h:form>
+
+            <h:panelGrid columns="2">
+                Username:
+                <h:inputText id="userid" value="#{loginView.userid}" maxlength="10">
+                    <f:validateLength minimum="3" maximum="10" for="userid"/>
+                    <f:validateRequired for="userid" />
+                </h:inputText>
+
+                Password:
+                <h:inputSecret id="password" value="#{loginView.password}" maxlength="15">
+                    <f:validateLength minimum="3" maximum="15" for="password"/>
+                    <f:validateRequired for="passwrod" />
+                </h:inputSecret>
+
+                Confirm Password:
+                <h:inputSecret id="cpassword" value="#{loginView.cpassword}" maxlength="15">
+                    <f:validateLength minimum="3" maximum="15" for="cpassword"/>
+                    <f:validateRequired for="cpasswrod" />
+                </h:inputSecret>
+
+                <h:commandButton value="Back" action="login"/>
+                <h:commandButton value="Register" action="#{loginView.register()}"/>
+            </h:panelGrid>
+
+        </h:form>
+    </h:body>
+</html>
+
