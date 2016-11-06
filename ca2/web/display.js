@@ -9,24 +9,15 @@ $(function () {
     var category = null;
     var socket = null;
     function connect() {
-        try {            
+        try {
             if (socket !== null) {
                 socket.onclose();
             }
             socket = new WebSocket("ws://localhost:8080/ca2/notes/" + category);
-            socket.onopen = function (evt) {
+            socket.onopen = function () {
                 $("#notes").val("Connected to \n" + $("#notes").val());
-                $.each(evt.data, function (index, note) {
-                        displayNote(note);
-                    });
             };
             socket.onmessage = function (evt) {
-//                var data = JSON.parse(evt.data);
-//                var note = data.time + ": " 
-//                            + (category === "all") ? data.category + ": " : "" 
-//                            + data.title + ": " + data.content;
-//                
-//                $("#notes").val(note + "\n" + $("#notes").val());
                 displayNote(evt.data);
             };
             socket.onclose = function () {
@@ -36,18 +27,25 @@ $(function () {
             message('<p>Error' + exception);
         }
     }
-    
+
     function displayNote(incomingData) {
         var data = JSON.parse(incomingData);
-        var postedNotes = data.isnotes;
-        if (postedNotes === null) {
-        var note = data.title 
-                        + ": " + data.time 
-                        + ": " + data.who 
-                        + (category === "all") ? ": " + data.category : ""
-                        + ": " + data.content;
+        var note = "";
+        if ($.isArray(data)) {
+            if (data !== null) {
+                $.each(data, function (index, eachNote) {
+                    note = note + buildMessage(eachNote);
+                });
             }
-                
-        $("#notes").val(note + "\n" + $("#notes").val());
+        } else {
+            note = buildMessage(data)
+        }
+
+        $("#notes").val(note + $("#notes").val());
+    }
+
+    function buildMessage(note) {
+        var msg = note.title + ": " + note.time + ": " + note.who + ((category === "all") ? (": " + note.category) : "") + ": " + note.content + "\n";
+        return msg;
     }
 });
