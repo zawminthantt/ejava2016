@@ -5,7 +5,7 @@
  */
 package com.team08pt.business;
 
-import com.team08pt.model.Notes;
+import com.team08pt.model.Note;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Named;
@@ -19,16 +19,21 @@ import javax.persistence.TypedQuery;
  */
 @Named
 @Stateless
-public class NotesBean {
+public class NoteBean {
 
     @PersistenceContext
     private EntityManager entityManager;
     
-    public List<Notes> findAll() {
-        TypedQuery<Notes> query = entityManager.createNamedQuery("Notes.findAll",
-                Notes.class);
+    public List<Note> findAll() {
+        TypedQuery<Note> query = entityManager.createNamedQuery("Note.findAll",
+                Note.class);
 
         return query.getResultList();
+    }
+    
+    public void createNote(Note note) {
+        System.out.println(">>> Creating Note....");
+        System.out.println(">>>> Note: " + note);
     }
 
 }

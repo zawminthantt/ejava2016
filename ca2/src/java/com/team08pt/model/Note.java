@@ -29,13 +29,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "notes")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Notes.findAll", query = "SELECT n FROM Notes n order by n.createTime DESC"),
-    @NamedQuery(name = "Notes.findByNoteid", query = "SELECT n FROM Notes n WHERE n.noteid = :noteid"),
-    @NamedQuery(name = "Notes.findByTitle", query = "SELECT n FROM Notes n WHERE n.title = :title"),
-    @NamedQuery(name = "Notes.findByCategory", query = "SELECT n FROM Notes n WHERE n.category = :category"),
-    @NamedQuery(name = "Notes.findByContent", query = "SELECT n FROM Notes n WHERE n.content = :content"),
-    @NamedQuery(name = "Notes.findByCreateTime", query = "SELECT n FROM Notes n WHERE n.createTime = :createTime")})
-public class Notes implements Serializable {
+    @NamedQuery(name = "Note.findAll", query = "SELECT n FROM Note n order by n.createTime DESC"),
+    @NamedQuery(name = "Note.findByNoteid", query = "SELECT n FROM Note n WHERE n.noteid = :noteid"),
+    @NamedQuery(name = "Note.findByTitle", query = "SELECT n FROM Note n WHERE n.title = :title"),
+    @NamedQuery(name = "Note.findByCategory", query = "SELECT n FROM Note n WHERE n.category = :category"),
+    @NamedQuery(name = "Note.findByContent", query = "SELECT n FROM Note n WHERE n.content = :content"),
+    @NamedQuery(name = "Note.findByCreateTime", query = "SELECT n FROM Note n WHERE n.createTime = :createTime")})
+public class Note implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -59,10 +59,16 @@ public class Notes implements Serializable {
     @ManyToOne
     private Users userid;
 
-    public Notes() {
+    public Note() {
     }
 
-    public Notes(Integer noteid) {
+    public Note(String title, String category, String content) {
+        this.title = title;
+        this.category = category;
+        this.content = content;
+    }
+
+    public Note(Integer noteid) {
         this.noteid = noteid;
     }
 
@@ -124,10 +130,10 @@ public class Notes implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Notes)) {
+        if (!(object instanceof Note)) {
             return false;
         }
-        Notes other = (Notes) object;
+        Note other = (Note) object;
 
         return !((this.noteid == null && other.noteid != null) || (this.noteid != null && !this.noteid.equals(other.noteid)));
     }

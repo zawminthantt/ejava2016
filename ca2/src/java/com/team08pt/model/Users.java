@@ -36,7 +36,7 @@ public class Users implements Serializable {
     private String password;
     
     @OneToMany(mappedBy = "userid")
-    private Collection<Notes> notesCollection;
+    private Collection<Note> notesCollection;
 
     public Users() {
     }
@@ -67,11 +67,11 @@ public class Users implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Notes> getNotesCollection() {
+    public Collection<Note> getNotesCollection() {
         return notesCollection;
     }
 
-    public void setNotesCollection(Collection<Notes> notesCollection) {
+    public void setNotesCollection(Collection<Note> notesCollection) {
         this.notesCollection = notesCollection;
     }
 
@@ -89,10 +89,8 @@ public class Users implements Serializable {
             return false;
         }
         Users other = (Users) object;
-        if ((this.userid == null && other.userid != null) || (this.userid != null && !this.userid.equals(other.userid))) {
-            return false;
-        }
-        return true;
+        
+        return !((this.userid == null && other.userid != null) || (this.userid != null && !this.userid.equals(other.userid)));
     }
 
     @Override

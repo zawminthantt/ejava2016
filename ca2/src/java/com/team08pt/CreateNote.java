@@ -1,7 +1,7 @@
-
 package com.team08pt;
 
-import com.team08pt.business.NotesBean;
+import com.team08pt.business.NoteBean;
+import com.team08pt.model.Note;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,13 +16,14 @@ import javax.inject.Named;
 @RequestScoped
 @Named
 public class CreateNote implements Serializable {
+
     private String title;
     private List<String> categories;
     private String category;
     private String content;
-    
+
     @EJB
-    private NotesBean noteBean;
+    private NoteBean noteBean;
 
     public CreateNote() {
         this.categories = new ArrayList<>();

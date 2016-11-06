@@ -31,7 +31,7 @@ public class LoginView implements Serializable {
     private String cpassword;
     private int count;
     
-    private static String AUTHENTICATED = "authenticated";
+    private static final String AUTHENTICATED = "authenticated";
     
     @EJB
     private UsersBean userBean;

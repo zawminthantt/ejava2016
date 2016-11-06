@@ -1,7 +1,7 @@
 package com.team08pt;
 
-import com.team08pt.business.NotesBean;
-import com.team08pt.model.Notes;
+import com.team08pt.business.NoteBean;
+import com.team08pt.model.Note;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,9 +25,9 @@ public class NotesEndpoint {
     private String category;
     private Session session;
     private static Map<String, List<Session>> sessionMap = new HashMap<>();
-    private static List<Notes> notes;
+    private static List<Note> notes;
     
-    @EJB private NotesBean noteBean;
+    @EJB private NoteBean noteBean;
 
     @OnOpen
     public void open(@PathParam("category") String category, Session sess) {
@@ -66,7 +66,7 @@ public class NotesEndpoint {
                 }
             } else {
                 for (int i=notes.size(); i>0; i--) {
-                    Notes note = notes.get(i - 1);
+                    Note note = notes.get(i - 1);
                     if (note.getCategory().equalsIgnoreCase(category))
                         jsonArrayBuilder.add(note.toJSON());
                 }
@@ -94,7 +94,7 @@ public class NotesEndpoint {
         }
     }
     
-    public void sendMessageToGroup(Notes note) {
+    public void sendMessageToGroup(Note note) {
         String msg = note.toJSON().toString();
         
         notes.add(note);
