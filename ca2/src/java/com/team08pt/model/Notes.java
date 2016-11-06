@@ -7,6 +7,8 @@ package com.team08pt.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,7 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "notes")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Notes.findAll", query = "SELECT n FROM Notes n"),
+    @NamedQuery(name = "Notes.findAll", query = "SELECT n FROM Notes n order by n.createTime DESC"),
     @NamedQuery(name = "Notes.findByNoteid", query = "SELECT n FROM Notes n WHERE n.noteid = :noteid"),
     @NamedQuery(name = "Notes.findByTitle", query = "SELECT n FROM Notes n WHERE n.title = :title"),
     @NamedQuery(name = "Notes.findByCategory", query = "SELECT n FROM Notes n WHERE n.category = :category"),
@@ -141,4 +143,13 @@ public class Notes implements Serializable {
         return "com.team08pt.model.Notes[ noteid=" + noteid + " ]";
     }
     
+    public JsonObject toJSON() {
+        return (Json.createObjectBuilder()
+                .add("title", title)
+                .add("time", createTime.toString())
+                .add("who", userid.getUserid())
+                .add("category", category)
+                .add("content", content)
+                .build());
+    }
 }
