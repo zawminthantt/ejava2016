@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.team08pt.model;
 
 import java.io.Serializable;
@@ -132,10 +128,8 @@ public class Notes implements Serializable {
             return false;
         }
         Notes other = (Notes) object;
-        if ((this.noteid == null && other.noteid != null) || (this.noteid != null && !this.noteid.equals(other.noteid))) {
-            return false;
-        }
-        return true;
+
+        return !((this.noteid == null && other.noteid != null) || (this.noteid != null && !this.noteid.equals(other.noteid)));
     }
 
     @Override
