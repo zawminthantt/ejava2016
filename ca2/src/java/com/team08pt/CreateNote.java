@@ -1,7 +1,6 @@
 package com.team08pt;
 
 import com.team08pt.business.NoteBean;
-import com.team08pt.model.Note;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,9 +63,11 @@ public class CreateNote implements Serializable {
     public void setContent(String content) {
         this.content = content;
     }
-    
+
     public void createNote() {
-        System.out.println(">>>> Creating Note....");
-        System.out.println(">>>> " + String.format("Title: %s, Category: %s, Content: %s", this.title, this.category, this.content));
+        //TODO: Create an instance of Note and call noteBean.createNote(note);
+        
+        this.title = "";
+        this.content = "";
     }
 }
