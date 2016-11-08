@@ -1,5 +1,6 @@
 package com.team08pt;
 
+import com.team08pt.model.Users;
 import java.io.Serializable;
 import java.security.Principal;
 import javax.enterprise.context.SessionScoped;
@@ -13,25 +14,38 @@ import javax.servlet.http.HttpSession;
 @Named
 public class UserSession implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Inject private Principal user;
+    @Inject
+    private Principal user;
 
-	public String getUsername() {
-		return (user.getName());
-	}
-	public void setUserName(String n) { }
+    private Users userModel;
 
-	public String logout() {
+    public Users getUserModel() {
+        return userModel;
+    }
 
-		HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance()
-                                                .getExternalContext()
-                                                .getRequest();
-                HttpSession session = req.getSession();
-		System.out.println(">>> UserSession user: " + req.getRemoteUser());
-		session.invalidate();
-		return ("/login");
+    public void setUserModel(Users userModel) {
+        this.userModel = userModel;
+    }
 
-	}
-	
+    public String getUsername() {
+        return (user.getName());
+    }
+
+    public void setUserName(String n) {
+    }
+
+    public String logout() {
+
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance()
+                .getExternalContext()
+                .getRequest();
+        HttpSession session = req.getSession();
+        System.out.println(">>> UserSession user: " + req.getRemoteUser());
+        session.invalidate();
+        return ("/login");
+
+    }
+
 }

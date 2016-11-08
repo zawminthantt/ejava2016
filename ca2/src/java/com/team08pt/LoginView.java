@@ -11,10 +11,12 @@ import com.team08pt.model.Groups;
 import com.team08pt.model.GroupsPK;
 import com.team08pt.model.Users;
 import java.io.Serializable;
+import java.util.Optional;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +34,9 @@ public class LoginView implements Serializable {
     private int count;
     
     private static final String AUTHENTICATED = "authenticated";
+    
+    @Inject
+    private UserSession userSession;
     
     @EJB
     private UsersBean userBean;
@@ -84,6 +89,9 @@ public class LoginView implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, msg);
             return ("");
         }
+        Optional<Users> users = userBean.find(userid);
+        if (users.isPresent()) userSession.setUserModel(users.get());
+        
         System.out.println(">>> LoginView user: " + req.getRemoteUser());
         return ("/secure/menu");
 

@@ -6,6 +6,7 @@
 package com.team08pt.business;
 
 import com.team08pt.model.Users;
+import java.util.Optional;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -24,6 +25,10 @@ public class UsersBean {
 
     @PersistenceContext
     private EntityManager entityManager;
+    
+    public Optional<Users> find(String userId) {
+        return (Optional.ofNullable(entityManager.find(Users.class, userId)));
+    }
     
     public void register(Users user) {
         entityManager.persist(user);
