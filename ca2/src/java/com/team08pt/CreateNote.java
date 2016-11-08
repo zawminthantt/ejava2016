@@ -1,11 +1,15 @@
 package com.team08pt;
 
 import com.team08pt.business.NoteBean;
+import com.team08pt.model.Note;
+import com.team08pt.model.Users;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -63,9 +67,12 @@ public class CreateNote implements Serializable {
     public void setContent(String content) {
         this.content = content;
     }
-
+    
+    @Inject private UserSession userSession;
     public void createNote() {
-        //TODO: Create an instance of Note and call noteBean.createNote(note);
+        Users user = userSession.getUserModel();
+        Note note = new Note(title, category, content, new Date(), user);
+        noteBean.createNote(note);
         
         this.title = "";
         this.content = "";
