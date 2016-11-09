@@ -7,33 +7,34 @@
         <title>Posted Notes</title>
     </h:head>
     <h:body>
-        <h2>Note Details#{userSession.username}</h2>
-        <h:dataTable value="#{noteView.notes}" var="note" border="2">
-        <h:column>
-			<f:facet name="header">Note ID</f:facet>
-         #{note.noteid}
-        </h:column>
-        <h:column>
-			<f:facet name="header">Category</f:facet>
-         #{note.category}
-        </h:column>
+        <h2>Posted Note Details of&nbsp;<font color="blue">#{userSession.username}</font></h2>
+        <h:dataTable value="#{noteView.notes}" var="note" border="2" rendered="#{noteView.notes.size() > 0}">
             <h:column>
-			<f:facet name="header">Title</f:facet>
-           #{note.title}
-        </h:column>
-        <h:column>
-			<f:facet name="header">Content</f:facet>
-           #{note.content}
-        </h:column>
-        <h:column>
-			<f:facet name="header">Created Date</f:facet>
-           #{note.createTime}
-        </h:column>
-        <h:column>
-			<f:facet name="header">Created By</f:facet>
-           #{note.userid}
-        </h:column>
-	</h:dataTable>
+                <f:facet name="header">Note ID</f:facet>
+                    #{note.noteid}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Category</f:facet>
+                    #{note.category}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Title</f:facet>
+                    #{note.title}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Content</f:facet>
+                    #{note.content}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Created Date</f:facet>
+                    #{note.createTime}
+            </h:column>
+        </h:dataTable>
+        <h:form>
+            <h:panelGrid columns="1">
+                <h:commandButton value="Back" action="menu"/>
+            </h:panelGrid>
+        </h:form>
     </h:body>
 </html>
 

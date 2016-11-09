@@ -15,6 +15,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -90,13 +92,21 @@ public class NoteView implements Serializable {
     }
     
     public List<Note> getNotes() {
+        return notes;
+    }
+    
+    public String gotoPostedNotes() {
         Optional<Users> user = userBean.find(userSession.getUsername());
         if (user.isPresent()) {
             notes =  (List<Note>) user.get().getNotesCollection();
-            if (notes != null && !notes.isEmpty())
+            if (notes != null && !notes.isEmpty()) {
                 Collections.sort(notes, (n1, n2) -> n2.getCreateTime().compareTo(n1.getCreateTime()));
+            } else {                
+                FacesMessage msg = new FacesMessage("No note posted by this user.");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+            }
         }
-        return notes;
+        return "/secure/posted_notes";
     }
     
 }

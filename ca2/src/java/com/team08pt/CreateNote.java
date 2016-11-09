@@ -82,7 +82,7 @@ public class CreateNote implements Serializable {
         
         this.title = "";
         this.content = "";
-        
+        notesDisplays.loadNotes();
         notesDisplays.sendMessageToGroup(note);
     }
 }

@@ -47,9 +47,6 @@ public class NotesEndpoint {
     }
 
     private void sendPostedNotes() {
-        if (noteDisplaySession.getNotes() == null) {
-            noteDisplaySession.setNotes(noteBean.findAll());
-        }
         noteDisplaySession.add(category, session);
         System.out.println(">>> added session id: " + session.getId() + ", category: " + category);
         noteDisplaySession.sendPostedNotes(category, session);

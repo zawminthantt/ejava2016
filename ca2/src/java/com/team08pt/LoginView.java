@@ -84,10 +84,12 @@ public class LoginView implements Serializable {
         try {
             req.login(userid, password);
         } catch (ServletException ex) {
-            FacesMessage msg = new FacesMessage("Incorrect login");
-            count++;
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return ("");
+            if (!ex.getMessage().contains("authenticated")) {
+                FacesMessage msg = new FacesMessage(ex.getMessage());
+                count++;
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+                return ("");
+            }
         }
         Optional<Users> users = userBean.find(userid);
         if (users.isPresent()) userSession.setUserModel(users.get());

@@ -5,12 +5,14 @@
  */
 package com.team08pt;
 
+import com.team08pt.business.NoteBean;
 import com.team08pt.model.Note;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -25,6 +27,9 @@ public class NotesDisplaySession {
 
     private static Map<String, List<Session>> sessionMap = new HashMap<>();
     private static List<Note> notes;
+    
+    @EJB
+    private NoteBean noteBean;
 
     public List<Note> getNotes() {
         return this.notes;
@@ -37,10 +42,17 @@ public class NotesDisplaySession {
     public void add(String category, Session session) {
         List<Session> allSessions = sessionMap.computeIfAbsent(category, s -> new ArrayList<Session>());
         allSessions.add(session);
+        loadNotes();
     }
 
     public void remove(String category, Session session) {
         sessionMap.get(category).remove(session);
+    }
+    
+    public void loadNotes() {
+        if (notes == null || notes.isEmpty()) {
+            notes = noteBean.findAll();
+        }
     }
 
     public void sendPostedNotes(String category, Session session) {

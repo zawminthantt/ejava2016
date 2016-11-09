@@ -7,7 +7,7 @@
     </h:head>
     <h:body>
 		<h1>Login</h1>
-		<h:form>
+		<h:form onkeypress="if (event.keyCode == 13) { document.getElementById('form:login').click(); return false; }" id="form">
 
 			<h:panelGrid columns="2">
 				Username:
@@ -20,7 +20,7 @@
 				<h:outputText value="#{loginView.count}"/>
                                 
                                 <h:commandButton value="Sign Up" action="register"/>
-				<h:commandButton value="Login" action="#{loginView.login()}"/>
+				<h:commandButton id="login" value="Login" action="#{loginView.login()}"/>
 			</h:panelGrid>
 
 		</h:form>

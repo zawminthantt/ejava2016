@@ -9,7 +9,7 @@
         <h1>Hello #{userSession.username}</h1>
         <h:form>
             <h:panelGrid columns="1">
-                <h:commandButton value="POSTED NOTES" action="posted_notes"/>
+                <h:commandButton value="POSTED NOTES" action="#{noteView.gotoPostedNotes()}"/>
                 <h:commandButton value="CREATE NOTE" action="create_note"/>
                 <h:commandButton value="Logout" action="#{userSession.logout()}"/>
             </h:panelGrid>
