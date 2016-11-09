@@ -6,12 +6,17 @@
 package com.team08pt;
 
 import com.team08pt.business.NoteBean;
+import com.team08pt.business.UsersBean;
 import com.team08pt.model.Note;
+import com.team08pt.model.Users;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -32,7 +37,9 @@ public class NoteView implements Serializable {
     private String userid;
     private static List<Note> notes;
     
-    @EJB private NoteBean noteBean;
+    //@EJB private NoteBean noteBean;
+    @EJB private UsersBean userBean;
+    @Inject private UserSession userSession;
 
     public int getNoteid() {
         return noteid;
@@ -83,7 +90,12 @@ public class NoteView implements Serializable {
     }
     
     public List<Note> getNotes() {
-        notes = noteBean.findAll();
+        Optional<Users> user = userBean.find(userSession.getUsername());
+        if (user.isPresent()) {
+            notes =  (List<Note>) user.get().getNotesCollection();
+            if (notes != null && !notes.isEmpty())
+                Collections.sort(notes, (n1, n2) -> n2.getCreateTime().compareTo(n1.getCreateTime()));
+        }
         return notes;
     }
     
