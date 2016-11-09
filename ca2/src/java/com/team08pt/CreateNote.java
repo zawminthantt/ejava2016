@@ -4,9 +4,13 @@ import com.team08pt.business.NoteBean;
 import com.team08pt.model.Note;
 import com.team08pt.model.Users;
 import java.io.Serializable;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -27,6 +31,8 @@ public class CreateNote implements Serializable {
 
     @EJB
     private NoteBean noteBean;
+    
+    @Inject private NotesDisplaySession notesDisplays;
 
     public CreateNote() {
         this.categories = new ArrayList<>();
@@ -76,5 +82,7 @@ public class CreateNote implements Serializable {
         
         this.title = "";
         this.content = "";
+        
+        notesDisplays.sendMessageToGroup(note);
     }
 }
