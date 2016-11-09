@@ -38,7 +38,7 @@ $(function () {
                 });
             }
         } else {
-            note = buildMessage(data)
+            note = buildMessage(data);
         }
 
         $("#notes").val(note + $("#notes").val());

@@ -9,20 +9,27 @@
     <h:body>
         <h1 align="center"> Create Note </h1>
         <br/><br/>
-        
+
         <h:form>
-            <h:panelGrid columns="2">
+            <h:panelGrid columns="3">
                 Title:
-                <h:inputText value="#{createNote.title}" />
-                
+                <h:inputText id="title" value="#{createNote.title}" label="Title">
+                    <f:validateRequired />
+                </h:inputText>
+                <h:message for="title" style="color:red" />
+
                 Category:
                 <h:selectOneMenu value="#{createNote.category}">
                     <f:selectItems value="#{createNote.categories}" />
                 </h:selectOneMenu>
-                
+                <h:panelGroup />
+
                 Content:
-                <h:inputText value="#{createNote.content}" />
-                
+                <h:inputText id="content" value="#{createNote.content}" label="Content">
+                    <f:validateRequired />
+                </h:inputText>
+                <h:message for="content" style="color: red" />
+
                 <h:panelGroup />
                 <h:commandButton value="Create Note" action="#{createNote.createNote()}" />
             </h:panelGrid>
