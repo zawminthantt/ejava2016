@@ -71,29 +71,31 @@ public class TimerSessionBean {
         Client client = ClientBuilder.newBuilder()
                 .register(MultiPartFeature.class)
                 .build();
-        try {
-            File tempFile = File.createTempFile(String.valueOf(System.currentTimeMillis()), ".png", null);
-            FileOutputStream fos = new FileOutputStream(tempFile);
-            fos.write(pod.getImage());
-            fos.close();
-
-            MultiPart part = new MultiPart();
-
-            FileDataBodyPart imgPart = new FileDataBodyPart("image",
-                    //new File("/Users/kyawminthu/ca3.png"),
-                    tempFile,
-                    MediaType.APPLICATION_OCTET_STREAM_TYPE);
-            imgPart.setContentDisposition(
-                    FormDataContentDisposition.name("image")
-                    .fileName("ca3.png").build());
-
+        try {     
             MultiPart formData = new FormDataMultiPart()
                     .field("teamId", "7db25b8b", MediaType.TEXT_PLAIN_TYPE)
                     .field("epodId", pod.getPodId(), MediaType.TEXT_PLAIN_TYPE)
                     .field("note", pod.getNote(), MediaType.TEXT_PLAIN_TYPE)
                     .field("callback", "http://localhost:8080/ca3/callback", MediaType.TEXT_PLAIN_TYPE)
-                    .field("time", pod.getDeliveryDate().getTime(), MediaType.TEXT_PLAIN_TYPE)
-                    .bodyPart(imgPart);
+                    .field("time", pod.getDeliveryDate().getTime(), MediaType.TEXT_PLAIN_TYPE);
+            
+            if (pod.getImage() != null) {
+                File tempFile = File.createTempFile(String.valueOf(System.currentTimeMillis()), ".png", null);
+                FileOutputStream fos = new FileOutputStream(tempFile);
+                fos.write(pod.getImage());
+                fos.close();
+
+                MultiPart part = new MultiPart();
+
+                FileDataBodyPart imgPart = new FileDataBodyPart("image",
+                        //new File("/Users/kyawminthu/ca3.png"),
+                        tempFile,
+                        MediaType.APPLICATION_OCTET_STREAM_TYPE);
+                imgPart.setContentDisposition(
+                        FormDataContentDisposition.name("image")
+                        .fileName("ca3.png").build());
+                formData.bodyPart(imgPart);
+            }
             formData.setMediaType(MediaType.MULTIPART_FORM_DATA_TYPE);
 
             //part.bodyPart(new FileDataBodyPart("image", 
