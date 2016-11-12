@@ -8,3 +8,6 @@
 /ca2/*.iml
 /ca2/.idea
 /ca2/out
+/ca3/nbproject/private/
+/ca3/build/
+/ca3/dist/
