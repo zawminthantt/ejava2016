@@ -8,6 +8,8 @@ package com.week05.ca3.entities;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -34,11 +36,16 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "delivery")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Delivery.findAll", query = "SELECT d FROM Delivery d"),
-    @NamedQuery(name = "Delivery.findByPkgId", query = "SELECT d FROM Delivery d WHERE d.pkgId = :pkgId"),
-    @NamedQuery(name = "Delivery.findByName", query = "SELECT d FROM Delivery d WHERE d.name = :name"),
-    @NamedQuery(name = "Delivery.findByAddress", query = "SELECT d FROM Delivery d WHERE d.address = :address"),
-    @NamedQuery(name = "Delivery.findByPhone", query = "SELECT d FROM Delivery d WHERE d.phone = :phone"),
+    @NamedQuery(name = "Delivery.findAll", query = "SELECT d FROM Delivery d")
+    ,
+    @NamedQuery(name = "Delivery.findByPkgId", query = "SELECT d FROM Delivery d WHERE d.pkgId = :pkgId")
+    ,
+    @NamedQuery(name = "Delivery.findByName", query = "SELECT d FROM Delivery d WHERE d.name = :name")
+    ,
+    @NamedQuery(name = "Delivery.findByAddress", query = "SELECT d FROM Delivery d WHERE d.address = :address")
+    ,
+    @NamedQuery(name = "Delivery.findByPhone", query = "SELECT d FROM Delivery d WHERE d.phone = :phone")
+    ,
     @NamedQuery(name = "Delivery.findByCreateDate", query = "SELECT d FROM Delivery d WHERE d.createDate = :createDate")})
 public class Delivery implements Serializable {
 
@@ -150,15 +157,17 @@ public class Delivery implements Serializable {
             return false;
         }
         Delivery other = (Delivery) object;
-        if ((this.pkgId == null && other.pkgId != null) || (this.pkgId != null && !this.pkgId.equals(other.pkgId))) {
-            return false;
-        }
-        return true;
+        return !((this.pkgId == null && other.pkgId != null) || (this.pkgId != null && !this.pkgId.equals(other.pkgId)));
     }
 
-    @Override
-    public String toString() {
-        return "com.zmt.Delivery[ pkgId=" + pkgId + " ]";
+    public JsonObject toJSON() {
+        return (Json.createObjectBuilder()
+                .add("customerId", pkgId)
+                .add("name", name)
+                .add("addressline1", address)
+                .add("phone", phone)
+                .add("create_date", createDate.toString())
+                .build());
     }
-    
+
 }
