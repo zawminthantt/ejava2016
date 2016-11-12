@@ -1,4 +1,3 @@
-
 package com.week05.ca3.rest;
 
 import com.week05.ca3.business.PackageDetailBean;
@@ -22,15 +21,16 @@ import javax.ws.rs.core.Response;
  */
 @Path("/package-detail")
 public class PackageDetail {
-    
-    @EJB private PackageDetailBean packageDetailBean;
+
+    @EJB
+    private PackageDetailBean packageDetailBean;
     private final ExecutorService executorService = java.util.concurrent.Executors.newCachedThreadPool();
-    
+
     @GET
     @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
     public void retrieveAllPackageDetails(@Suspended
-    final AsyncResponse asyncResponse) {
+            final AsyncResponse asyncResponse) {
         executorService.submit(() -> {
             asyncResponse.resume(doRetrieveAllPackageDetails());
         });
@@ -39,13 +39,15 @@ public class PackageDetail {
 
     private Response doRetrieveAllPackageDetails() {
         JsonArrayBuilder arrBuilder = Json.createArrayBuilder();
-        
+
         List<Delivery> result = packageDetailBean.findAll();
-        
+
         if (result == null) {
-            return (Response.status(Response.Status.NOT_FOUND).build());
+            return (Response.noContent().build());
+        } else if (result.size() <= 0) {
+            return (Response.noContent().build());
         }
-         
+
         result.forEach((delivery) -> {
             arrBuilder.add(delivery.toJSON());
         });
