@@ -22,6 +22,10 @@ public class PodBean {
     
     @PersistenceContext private EntityManager entityManager;
     
+    public Pod find(int podId) {
+        return entityManager.find(Pod.class, podId);
+    }
+    
     public List<Pod> findAll() {
         TypedQuery<Pod> query = entityManager.createNamedQuery("Pod.findAll", Pod.class);
         
@@ -39,6 +43,10 @@ public class PodBean {
         p.setDeliveryDate(new Date());
         
         entityManager.persist(p);
+    }
+    
+    public void update(Pod pod) {
+        entityManager.persist(pod);
     }
     
 }
