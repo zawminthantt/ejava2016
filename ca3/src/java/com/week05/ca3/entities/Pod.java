@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Family-PC
+ * @author Myo Wai Yan Kyaw
  */
 @Entity
 @Table(name = "pod")

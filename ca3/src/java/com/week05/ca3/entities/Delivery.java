@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Family-PC
+ * @author Myo Wai Yan Kyaw
  */
 @Entity
 @Table(name = "delivery")
