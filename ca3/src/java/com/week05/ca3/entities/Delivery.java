@@ -164,11 +164,10 @@ public class Delivery implements Serializable {
 
     public JsonObject toJSON() {
         return (Json.createObjectBuilder()
-                .add("customerId", pkgId)
+                .add("teamId", "7db25b8b")
+                .add("podId", pod.getPodId())
                 .add("name", name)
-                .add("addressline1", address)
                 .add("phone", phone)
-                .add("create_date", createDate.toString())
                 .build());
     }
 
