@@ -7,19 +7,22 @@ import java.util.concurrent.ExecutorService;
 import javax.ejb.EJB;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 /**
  *
  * @author zawminthant
  */
-@Path("/package-detail")
+@Path("/items")
 public class PackageDetail {
 
     @EJB
@@ -27,7 +30,6 @@ public class PackageDetail {
     private final ExecutorService executorService = java.util.concurrent.Executors.newCachedThreadPool();
 
     @GET
-    @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
     public void retrieveAllPackageDetails(@Suspended
             final AsyncResponse asyncResponse) {
@@ -53,6 +55,21 @@ public class PackageDetail {
         });
 
         return (Response.ok(arrBuilder.build())
+                .build());
+    }
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public void createPOD(@Suspended
+    final AsyncResponse asyncResponse, final MultivaluedMap<String, String> formData) {
+        executorService.submit(() -> {
+            asyncResponse.resume(doCreatePOD(formData));
+        });
+    }
+
+    private Response doCreatePOD(MultivaluedMap<String, String> formData) {
+        return (Response.status(Response.Status.CREATED)
                 .build());
     }
 }
