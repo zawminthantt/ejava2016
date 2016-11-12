@@ -18,6 +18,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -61,7 +62,7 @@ public class Pod implements Serializable {
     @Column(name = "ack_id")
     private String ackId;
     @JoinColumn(name = "pkg_id", referencedColumnName = "pkg_id")
-    @ManyToOne(optional = false)
+    @OneToOne(optional = false)
     private Delivery pkgId;
 
     public Pod() {
