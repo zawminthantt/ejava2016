@@ -43,7 +43,6 @@ public class Pod implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "pod_id")
     private Integer podId;
     @Lob
@@ -53,16 +52,14 @@ public class Pod implements Serializable {
     @Lob
     @Column(name = "image")
     private byte[] image;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "delivery_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date deliveryDate;
     @Size(max = 16)
     @Column(name = "ack_id")
     private String ackId;
+    @OneToOne
     @JoinColumn(name = "pkg_id", referencedColumnName = "pkg_id")
-    @OneToOne(optional = false)
     private Delivery pkgId;
 
     public Pod() {

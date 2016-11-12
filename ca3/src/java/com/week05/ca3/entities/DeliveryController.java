@@ -23,7 +23,9 @@ public class DeliveryController implements Serializable {
     private Delivery current;
     private DataModel items = null;
     @EJB
-    private com.week05.ca3.entities.DeliveryFacade ejbFacade;
+    private com.week05.ca3.entities.DeliveryFacade deliveryFacade;
+    @EJB
+    private com.week05.ca3.entities.PodFacade podFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
@@ -38,8 +40,12 @@ public class DeliveryController implements Serializable {
         return current;
     }
 
-    private DeliveryFacade getFacade() {
-        return ejbFacade;
+    private DeliveryFacade getDeliveryFacade() {
+        return deliveryFacade;
+    }
+    
+    private PodFacade getPodFacade() {
+        return podFacade;
     }
 
     public PaginationHelper getPagination() {
@@ -48,12 +54,12 @@ public class DeliveryController implements Serializable {
 
                 @Override
                 public int getItemsCount() {
-                    return getFacade().count();
+                    return getDeliveryFacade().count();
                 }
 
                 @Override
                 public DataModel createPageDataModel() {
-                    return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
+                    return new ListDataModel(getDeliveryFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
                 }
             };
         }
@@ -79,7 +85,10 @@ public class DeliveryController implements Serializable {
 
     public String create() {
         try {
-            getFacade().create(current);
+            getDeliveryFacade().create(current);
+            Pod pod = new Pod();
+            pod.setPkgId(current);
+            getPodFacade().create(pod);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("DeliveryCreated"));
             return prepareCreate();
         } catch (Exception e) {
@@ -96,7 +105,7 @@ public class DeliveryController implements Serializable {
 
     public String update() {
         try {
-            getFacade().edit(current);
+            getDeliveryFacade().edit(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("DeliveryUpdated"));
             return "View";
         } catch (Exception e) {
@@ -129,7 +138,7 @@ public class DeliveryController implements Serializable {
 
     private void performDestroy() {
         try {
-            getFacade().remove(current);
+            getDeliveryFacade().remove(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("DeliveryDeleted"));
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -137,7 +146,7 @@ public class DeliveryController implements Serializable {
     }
 
     private void updateCurrentItem() {
-        int count = getFacade().count();
+        int count = getDeliveryFacade().count();
         if (selectedItemIndex >= count) {
             // selected index cannot be bigger than number of items:
             selectedItemIndex = count - 1;
@@ -147,7 +156,7 @@ public class DeliveryController implements Serializable {
             }
         }
         if (selectedItemIndex >= 0) {
-            current = getFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
+            current = getDeliveryFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
         }
     }
 
@@ -179,15 +188,15 @@ public class DeliveryController implements Serializable {
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {
-        return JsfUtil.getSelectItems(ejbFacade.findAll(), false);
+        return JsfUtil.getSelectItems(deliveryFacade.findAll(), false);
     }
 
     public SelectItem[] getItemsAvailableSelectOne() {
-        return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
+        return JsfUtil.getSelectItems(deliveryFacade.findAll(), true);
     }
 
     public Delivery getDelivery(java.lang.Integer id) {
-        return ejbFacade.find(id);
+        return deliveryFacade.find(id);
     }
 
     @FacesConverter(forClass = Delivery.class)

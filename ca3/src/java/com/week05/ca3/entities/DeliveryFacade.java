@@ -27,5 +27,9 @@ public class DeliveryFacade extends AbstractFacade<Delivery> {
     public DeliveryFacade() {
         super(Delivery.class);
     }
-    
+
+    @Override
+    public void create(Delivery entity) {
+        em.persist(entity);
+    }
 }
