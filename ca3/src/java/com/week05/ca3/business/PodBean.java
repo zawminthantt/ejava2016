@@ -6,6 +6,7 @@
 package com.week05.ca3.business;
 
 import com.week05.ca3.entities.Pod;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -29,6 +30,15 @@ public class PodBean {
     
     public void createPOD(Pod pod) {
         entityManager.persist(pod);
+    }
+    
+    public void updatePOD(int podId, byte[] image, String note) {
+        Pod p = entityManager.find(Pod.class, podId);
+        p.setImage(image);
+        p.setNote(note);
+        p.setDeliveryDate(new Date());
+        
+        entityManager.persist(p);
     }
     
 }
