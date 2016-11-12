@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListPodTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListPodEmpty}" rendered="#{podController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{podController.items.rowCount > 0}">
+                    <h:outputText value="#{podController.pagination.pageFirstItem + 1}..#{podController.pagination.pageLastItem + 1}/#{podController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{podController.previous}" value="#{bundle.Previous} #{podController.pagination.pageSize}" rendered="#{podController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{podController.next}" value="#{bundle.Next} #{podController.pagination.pageSize}" rendered="#{podController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{podController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPodTitle_podId}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.podId}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPodTitle_note}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.note}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPodTitle_image}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.image}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPodTitle_deliveryDate}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.deliveryDate}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPodTitle_ackId}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.ackId}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPodTitle_pkgId}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.pkgId}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{podController.prepareView}" value="#{bundle.ListPodViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{podController.prepareEdit}" value="#{bundle.ListPodEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{podController.destroy}" value="#{bundle.ListPodDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{podController.prepareCreate}" value="#{bundle.ListPodCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListPodIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

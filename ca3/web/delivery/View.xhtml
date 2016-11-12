@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewDeliveryTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewDeliveryLabel_pkgId}"/>
+                    <h:outputText value="#{deliveryController.selected.pkgId}" title="#{bundle.ViewDeliveryTitle_pkgId}"/>
+                    <h:outputText value="#{bundle.ViewDeliveryLabel_name}"/>
+                    <h:outputText value="#{deliveryController.selected.name}" title="#{bundle.ViewDeliveryTitle_name}"/>
+                    <h:outputText value="#{bundle.ViewDeliveryLabel_address}"/>
+                    <h:outputText value="#{deliveryController.selected.address}" title="#{bundle.ViewDeliveryTitle_address}"/>
+                    <h:outputText value="#{bundle.ViewDeliveryLabel_phone}"/>
+                    <h:outputText value="#{deliveryController.selected.phone}" title="#{bundle.ViewDeliveryTitle_phone}"/>
+                    <h:outputText value="#{bundle.ViewDeliveryLabel_createDate}"/>
+                    <h:outputText value="#{deliveryController.selected.createDate}" title="#{bundle.ViewDeliveryTitle_createDate}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{deliveryController.destroyAndView}" value="#{bundle.ViewDeliveryDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewDeliveryEditLink}"/>
+                <br />
+                <h:commandLink action="#{deliveryController.prepareCreate}" value="#{bundle.ViewDeliveryCreateLink}" />
+                <br />
+                <h:commandLink action="#{deliveryController.prepareList}" value="#{bundle.ViewDeliveryShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewDeliveryIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

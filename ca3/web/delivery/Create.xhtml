@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateDeliveryTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateDeliveryLabel_pkgId}" for="pkgId" />
+                    <h:inputText id="pkgId" value="#{deliveryController.selected.pkgId}" title="#{bundle.CreateDeliveryTitle_pkgId}" required="true" requiredMessage="#{bundle.CreateDeliveryRequiredMessage_pkgId}"/>
+                    <h:outputLabel value="#{bundle.CreateDeliveryLabel_name}" for="name" />
+                    <h:inputText id="name" value="#{deliveryController.selected.name}" title="#{bundle.CreateDeliveryTitle_name}" required="true" requiredMessage="#{bundle.CreateDeliveryRequiredMessage_name}"/>
+                    <h:outputLabel value="#{bundle.CreateDeliveryLabel_address}" for="address" />
+                    <h:inputText id="address" value="#{deliveryController.selected.address}" title="#{bundle.CreateDeliveryTitle_address}" required="true" requiredMessage="#{bundle.CreateDeliveryRequiredMessage_address}"/>
+                    <h:outputLabel value="#{bundle.CreateDeliveryLabel_phone}" for="phone" />
+                    <h:inputText id="phone" value="#{deliveryController.selected.phone}" title="#{bundle.CreateDeliveryTitle_phone}" required="true" requiredMessage="#{bundle.CreateDeliveryRequiredMessage_phone}"/>
+                    <h:outputLabel value="#{bundle.CreateDeliveryLabel_createDate}" for="createDate" />
+                    <h:inputText id="createDate" value="#{deliveryController.selected.createDate}" title="#{bundle.CreateDeliveryTitle_createDate}" required="true" requiredMessage="#{bundle.CreateDeliveryRequiredMessage_createDate}">
+                        <f:convertDateTime pattern="dd/mm/yyyy" />
+                    </h:inputText>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{deliveryController.create}" value="#{bundle.CreateDeliverySaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{deliveryController.prepareList}" value="#{bundle.CreateDeliveryShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateDeliveryIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

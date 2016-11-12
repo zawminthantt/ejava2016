@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreatePodTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreatePodLabel_podId}" for="podId" />
+                    <h:inputText id="podId" value="#{podController.selected.podId}" title="#{bundle.CreatePodTitle_podId}" required="true" requiredMessage="#{bundle.CreatePodRequiredMessage_podId}"/>
+                    <h:outputLabel value="#{bundle.CreatePodLabel_note}" for="note" />
+                    <h:inputTextarea rows="4" cols="30" id="note" value="#{podController.selected.note}" title="#{bundle.CreatePodTitle_note}" />
+                    <h:outputLabel value="#{bundle.CreatePodLabel_image}" for="image" />
+                    <h:inputTextarea rows="4" cols="30" id="image" value="#{podController.selected.image}" title="#{bundle.CreatePodTitle_image}" />
+                    <h:outputLabel value="#{bundle.CreatePodLabel_deliveryDate}" for="deliveryDate" />
+                    <h:inputText id="deliveryDate" value="#{podController.selected.deliveryDate}" title="#{bundle.CreatePodTitle_deliveryDate}" required="true" requiredMessage="#{bundle.CreatePodRequiredMessage_deliveryDate}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreatePodLabel_ackId}" for="ackId" />
+                    <h:inputText id="ackId" value="#{podController.selected.ackId}" title="#{bundle.CreatePodTitle_ackId}" />
+                    <h:outputLabel value="#{bundle.CreatePodLabel_pkgId}" for="pkgId" />
+                    <h:selectOneMenu id="pkgId" value="#{podController.selected.pkgId}" title="#{bundle.CreatePodTitle_pkgId}" required="true" requiredMessage="#{bundle.CreatePodRequiredMessage_pkgId}">
+                        <f:selectItems value="#{deliveryController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{podController.create}" value="#{bundle.CreatePodSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{podController.prepareList}" value="#{bundle.CreatePodShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreatePodIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
